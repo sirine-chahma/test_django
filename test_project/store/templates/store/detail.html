@@ -1,0 +1,38 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+<div>
+<h5> Infos about the album </h5>
+
+<h6> Title : {{ album_title }} </h6>
+
+<h2 class="text-center artist_name">Artists names : {{ artists_name }}</h2>
+
+<img class="img-responsive" src="{{ thumbnail }}" alt="{{ album_title }}">
+
+<form class="form-group" action="{% url 'store:detail' album_id=album_id %}" method="POST">
+    {% csrf_token %}
+    <div class="form-group {% if form.name.errors %}has-warning has-feedback{% endif %}">
+        <label for="{{ form.name.id_for_label }}" class="control-label">Nom</label>
+        {{ form.name }}
+    </div>
+    <div class="form-group {% if form.email.errors %}has-warning has-feedback{% endif %}">
+        <label for="{{ form.email.id_for_label }}" class="control-label">Email</label>
+        {{ form.email }}
+    </div>
+
+    <!-- <input type="hidden" class="hidden" value="{{ album_id}}" name="album_id"> -->
+    <button type="submit" class="btn btn-success">Réserver</button>
+</form>
+
+{% if errors %}
+<div>
+    {% for key, error in errors %}
+    {% autoescape off %}
+        {{error}}
+    {% endautoescape %}
+    {% endfor %}
+</div>
+{%endif%}
+</div>
+{% endblock %}
